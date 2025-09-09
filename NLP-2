@@ -1,0 +1,60 @@
+🎤 NLP 特征预处理面试 Q&A 清单
+📌 基础类（常考）
+Q1：什么是 NLP 里的 Feature Preprocessing？
+👉 A： NLP 中的特征预处理是指把原始文本转化为模型可处理的数值化特征的过程，包括文本清洗、分词、去停用词、词干化/词形还原、特征向量化（BoW、TF-IDF、Word2Vec、BERT embedding）、以及序列输入的 padding 和 masking。
+
+Q2：分词为什么重要？BPE/WordPiece 的优势是什么？
+👉 A： 分词是将文本拆解成计算单元。英文可基于空格分词，但会遇到 OOV 问题；BPE/WordPiece 基于子词单元，可以减少词表大小，解决未登录词问题，且在低资源语言和新词场景效果更好。
+
+Q3：词干化 (Stemming) 和词形还原 (Lemmatization) 有什么区别？
+👉 A：
+词干化：基于规则粗暴截断，如 "studying → study"，但可能得不到真实词。
+词形还原：基于词典，返回标准词形，如 "better → good"，更准确。
+
+Q4：为什么要去停用词？
+👉 A： 一些高频词（如“的”、“is”）对下游任务区分度低、带来噪音。去掉它们能降低数据维度，提升模型效率。但在某些任务中（如机器翻译、语音识别），停用词可能有语法价值，不一定要去掉。
+
+📌 向量化类
+Q5：One-hot、Bag-of-Words、TF-IDF 的区别？
+👉 A：
+One-hot：每个词单独表示，简单但稀疏且维度大。
+Bag-of-Words：统计词频，忽略词序。
+TF-IDF：在 BoW 基础上加权，突出区分性强的词。
+
+Q6：TF-IDF 的优缺点？
+👉 A：
+优点：简单、可解释性强，适合小数据集或无监督任务。
+缺点：向量高维稀疏，不考虑语义相似性，也丢失上下文顺序。
+
+Q7：Word2Vec 和 TF-IDF 的区别？
+👉 A：
+TF-IDF：统计方法，基于词频统计。
+Word2Vec：训练得到低维稠密嵌入，能捕捉语义关系（如 king - man ≈ queen - woman）。
+
+Q8：为什么要用 Transformer Embedding（BERT/GPT）？
+👉 A： 静态词向量（Word2Vec/GloVe）无法根据上下文变化，而 Transformer Embeddings 是上下文相关的动态表示，语义更准确，适合复杂 NLP 任务。
+
+📌 序列建模类
+Q9：为什么需要 Padding？
+👉 A： 不同句子长度不同，为了 batch 训练必须统一长度，短序列补零。
+
+Q10：NLP 中的 Masking 有几种典型作用？
+👉 A：
+在 Self-attention 中屏蔽 Padding token。
+在自回归模型中屏蔽未来 token，保持因果性。
+在 MLM 任务（BERT 预训练）中随机 mask token，学习上下文预测。
+
+📌 思考类 / 开放性问题（面试加分项）
+Q11：传统特征预处理和深度学习特征表示的区别？
+👉 A：
+传统：人工特征（TF-IDF、n-gram），简单但效果有限。
+深度学习：自动学习表示（embedding）、上下文相关（BERT），语义捕捉更强。
+
+Q12：什么时候不应该去停用词？
+👉 A： 在机器翻译、语音识别、文本生成类任务中，因为停用词承载了句子语法结构和流畅性，必须保留。
+
+Q13：如果词汇表太大，你会怎么处理？
+👉 A：
+使用 Subword 分词（BPE、WordPiece）；
+限制词表大小、替换 OOV 为 UNK；
+使用字符级模型或 byte-level tokenization。

@@ -86,4 +86,4 @@ LSTM/GRU = 门控机制
 GAN = 对抗训练 + 生成图像
 Transformer = Self-Attention + 并行
 GNN = 图结构建模
-结合应用场景：工业落地和实际案例会加分。
+
